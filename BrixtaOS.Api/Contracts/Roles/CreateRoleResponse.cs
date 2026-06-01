@@ -1,9 +1,11 @@
+using System.Collections.Generic;
+
 namespace BrixtaOS.Api.Contracts.Roles
 {
-    public sealed record CreateRoleResponse
+    public class CreateRoleResponse
     {
-        public Guid Id { get; init; }
-        public string Name { get; init; }
-        public IReadOnlyList<string> AllowedEvents { get; init; }
+        public required Guid Id { get; init; }
+        public required string Name { get; init; }
+        public required List<string> AllowedEvents { get; init; }
     }
 }

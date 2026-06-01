@@ -1,8 +1,7 @@
 namespace BrixtaOS.Api.Contracts.WorkflowInstances
 {
-    public sealed record CreateWorkflowInstanceResponse
+    public class CreateWorkflowInstanceResponse
     {
-        public Guid Id { get; init; }
-        public string CurrentState { get; init; }
+        public required string CurrentState { get; set; }
     }
 }

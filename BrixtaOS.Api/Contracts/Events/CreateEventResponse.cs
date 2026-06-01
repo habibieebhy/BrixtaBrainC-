@@ -1,8 +1,8 @@
 namespace BrixtaOS.Api.Contracts.Events
 {
-    public sealed record CreateEventResponse
+    public class CreateEventResponse
     {
-        public bool Accepted { get; init; }
-        public string NewState { get; init; }
+        public required bool Accepted { get; init; }
+        public required string NewState { get; init; }
     }
 }

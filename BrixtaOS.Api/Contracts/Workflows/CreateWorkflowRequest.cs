@@ -1,8 +1,13 @@
+using System;
+using System.Collections.Generic;
+using BrixtaOS.Domain.Workflows;
+
 namespace BrixtaOS.Api.Contracts.Workflows
 {
-    public sealed record CreateWorkflowRequest
+    public class CreateWorkflowRequest
     {
-        public string Name { get; init; }
-        public IReadOnlyList<string> States { get; init; }
+        public required string Name { get; set; }
+        public required List<WorkflowState> States { get; set; }
+        public required List<WorkflowTransition> Transitions { get; set; }
     }
 }

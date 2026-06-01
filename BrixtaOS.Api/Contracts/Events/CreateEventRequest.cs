@@ -1,9 +1,9 @@
 namespace BrixtaOS.Api.Contracts.Events
 {
-    public sealed record CreateEventRequest
+    public class CreateEventRequest
     {
-        public Guid WorkflowInstanceId { get; init; }
-        public Guid UserId { get; init; }
-        public string EventName { get; init; }
+        public required Guid WorkflowInstanceId { get; init; }
+        public required Guid UserId { get; init; }
+        public required string EventName { get; init; }
     }
 }
