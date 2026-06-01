@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="BrixtaOS.Api/BrixtaOS.Api.csproj" />
+  <Project Path="BrixtaOS.Application/BrixtaOS.Application.csproj" />
+  <Project Path="BrixtaOS.Domain/BrixtaOS.Domain.csproj" />
+  <Project Path="BrixtaOS.Grains/BrixtaOS.Grains.csproj" />
+  <Project Path="BrixtaOS.Infrastructure/BrixtaOS.Infrastructure.csproj" />
+</Solution>

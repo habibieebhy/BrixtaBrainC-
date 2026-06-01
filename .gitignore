@@ -1,0 +1,109 @@
+# Build folders
+
+bin/
+obj/
+
+# Visual Studio
+
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+
+.idea/
+
+# VS Code
+
+.vscode/
+
+# Logs
+
+*.log
+
+# OS files
+
+.DS_Store
+Thumbs.db
+
+# NuGet
+
+packages/
+*.nupkg
+
+# Test Results
+
+TestResults/
+
+# Coverage
+
+coverage/
+*.coverage
+*.coveragexml
+
+# Publish Output
+
+publish/
+
+# Entity Framework
+
+Migrations/*.Designer.cs
+
+# Secrets
+
+appsettings.Local.json
+appsettings.Production.json
+secrets.json
+
+# User Secrets
+
+**/secrets.json
+
+# Aider
+
+.aider*
+.aider/
+
+# Ollama
+
+.ollama/
+
+# Temporary files
+
+tmp/
+temp/
+
+# Orleans generated artifacts
+
+orleans.codegen.cs
+
+# JetBrains
+
+_ReSharper*/
+*.DotSettings.user
+
+# Azure
+
+.azure/
+
+# Terraform
+
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# Node (if frontend exists later)
+
+node_modules/
+.next/
+dist/
+build/
+
+# Environment files
+
+.env
+.env.local
+.env.production
+.env.development
