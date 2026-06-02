@@ -844,3 +844,343 @@ Build boring things first.
 Scale them later.
 
 That is how BrixtaOS reaches production.
+
+# What Do I Touch?
+
+This is the decision tree for future development.
+
+---
+
+## Adding A New Entity
+
+Example:
+
+```txt
+Department
+Project
+Team
+Branch
+```
+
+Process:
+
+```txt
+Domain
+ ↓
+DbContext
+ ↓
+Migration
+ ↓
+Database Update
+ ↓
+Contracts
+ ↓
+Runtime
+ ↓
+Endpoints
+ ↓
+Program.cs
+```
+
+Files:
+
+```txt
+BrixtaOS.Domain/Departments/Department.cs
+
+BrixtaOS.Infrastructure/Persistence/BrixtaDbContext.cs
+
+BrixtaOS.Api/Contracts/Departments/CreateDepartmentRequest.cs
+
+BrixtaOS.Application/Runtime/DepartmentRuntime.cs
+
+BrixtaOS.Api/Endpoints/DepartmentsEndpoints.cs
+
+Program.cs
+```
+
+---
+
+## Adding A New Endpoint Only
+
+Example:
+
+```txt
+GET /api/departments
+
+POST /api/departments/search
+```
+
+Files touched:
+
+```txt
+Contracts
+Endpoints
+Program.cs
+```
+
+No migration required.
+
+No database update required.
+
+---
+
+## Adding Business Logic
+
+Example:
+
+```txt
+CanApproveLeave()
+
+CanAssignRole()
+
+CanSubmitExpense()
+```
+
+Files touched:
+
+```txt
+Application/Runtime
+```
+
+Possibly:
+
+```txt
+Endpoints
+```
+
+Never place large business logic inside endpoints.
+
+---
+
+## Adding A New Database Column
+
+Example:
+
+```csharp
+public string Description { get; set; }
+```
+
+added to:
+
+```txt
+Organization.cs
+```
+
+Process:
+
+```txt
+Update Domain Model
+ ↓
+Create Migration
+ ↓
+Update Database
+ ↓
+Update Contracts
+ ↓
+Update Endpoints
+```
+
+---
+
+## Deleting A Feature
+
+Delete:
+
+```txt
+Entity
+Runtime
+Contracts
+Endpoints
+```
+
+Remove:
+
+```txt
+DbSet
+```
+
+from:
+
+```txt
+BrixtaDbContext
+```
+
+Create migration:
+
+```bash
+dotnet ef migrations add RemoveFeature
+
+dotnet ef database update
+```
+
+---
+
+## Deleting An Entire Project
+
+Example:
+
+```txt
+BrixtaOS.Grains
+```
+
+Steps:
+
+```txt
+1. Delete Project Folder
+
+2. Remove Project References
+
+3. Remove From Solution
+
+dotnet sln BrixtaOS.Backend.slnx remove <project>
+
+4. Build Solution
+```
+
+Before deleting ask:
+
+```txt
+Is this project part of the future architecture?
+```
+
+Example:
+
+```txt
+BrixtaOS.Grains
+```
+
+Should currently be kept because it is the future Orleans layer.
+
+Delete unused files.
+
+Keep the project.
+
+---
+
+# Feature Checklist
+
+Before committing:
+
+```txt
+□ Domain Created
+
+□ DbSet Added
+
+□ Migration Generated
+
+□ Database Updated
+
+□ Contracts Added
+
+□ Runtime Added
+
+□ Endpoint Added
+
+□ Program.cs Updated
+
+□ dotnet build Successful
+
+□ API Tested
+```
+# How Requests Travel
+
+Example:
+
+```http
+POST /api/events
+```
+
+Flow:
+
+```txt
+Client
+ ↓
+EventsEndpoints.cs
+ ↓
+Request Contract
+ ↓
+WorkflowRuntime
+ ↓
+DbContext
+ ↓
+PostgreSQL
+ ↓
+DbContext
+ ↓
+Response DTO
+ ↓
+Endpoint
+ ↓
+Client
+```
+
+Think:
+
+```txt
+API = Transport
+
+Application = Logic
+
+Infrastructure = Storage
+
+Database = Persistence
+```
+
+Whenever debugging, locate the layer first.
+# Daily Development Workflow
+
+When building a new feature:
+
+```txt
+1. Create Domain Entity
+
+2. Add DbSet
+
+3. Create Migration
+
+4. Update Database
+
+5. Create Request Contract
+
+6. Create Response Contract
+
+7. Create Runtime Logic
+
+8. Create Endpoint
+
+9. Register Endpoint
+
+10. Build
+
+11. Test
+```
+
+Commands:
+
+```bash
+dotnet build BrixtaOS.Backend.slnx
+```
+
+```bash
+dotnet ef migrations add MigrationName \
+--project BrixtaOS.Infrastructure/BrixtaOS.Infrastructure.csproj \
+--startup-project BrixtaOS.Api/BrixtaOS.Api.csproj
+```
+
+```bash
+dotnet ef database update \
+--project BrixtaOS.Infrastructure/BrixtaOS.Infrastructure.csproj \
+--startup-project BrixtaOS.Api/BrixtaOS.Api.csproj
+```
+
+Rule:
+
+```txt
+If Domain Changes
+↓
+Migration Required
+
+If Endpoint Only Changes
+↓
+No Migration Required
+```
